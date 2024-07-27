@@ -1,9 +1,6 @@
 package com.navi.nbcampjavatodotask.api.controller;
 
-import com.navi.nbcampjavatodotask.api.model.todo.SimplifiedTodoResponse;
-import com.navi.nbcampjavatodotask.api.model.todo.TodoCreateRequest;
-import com.navi.nbcampjavatodotask.api.model.todo.TodoResponse;
-import com.navi.nbcampjavatodotask.api.model.todo.TodoUpdateRequest;
+import com.navi.nbcampjavatodotask.api.model.todo.*;
 import com.navi.nbcampjavatodotask.api.service.TodoService;
 import com.navi.nbcampjavatodotask.database.entity.Todo;
 import lombok.RequiredArgsConstructor;
@@ -80,5 +77,13 @@ public class TodoController {
                 request.password()
         );
         return TodoResponse.of(todo);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteTodo(
+            @PathVariable("id") Long id,
+            @RequestBody TodoDeleteRequest request
+    ){
+       todoService.deleteTodo(id, request.password());
     }
 }

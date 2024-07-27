@@ -92,4 +92,19 @@ public class TodoService {
         // 이후 해당 값을 레포지토리에 저장하고, 그 값을 반환한다.
         return todoRepository.save(todo);
     }
+
+    public void deleteTodo(
+            Long id,
+            String password
+    ){
+        Todo todo = getTodoById(id);
+        // todo가 존재하는지 확인한 다음, password가 일치하는지를 비교해 보아야 한다.
+        if (!todo.getPassword().equals(password)){
+            // 동일하지 않은 경우 예외처리를 하기 위해 앞에 !를 넣었다
+            throw new RuntimeException("password Incorrect");
+        }
+        // todo 존재여부는 동일하게 조회하므로 위의 코드를 복붙함
+
+        todoRepository.deleteById(id);
+    }
 }
