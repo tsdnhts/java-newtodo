@@ -3,7 +3,7 @@ package com.navi.nbcampjavatodotask.api.model.todo;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
-import java.time.LocalDateTime;
+
 
 public record TodoCreateRequest(
         // Record란? 코틀린의 data class 같은 역할을 하는 것이 java 14 이후 나온 record!
