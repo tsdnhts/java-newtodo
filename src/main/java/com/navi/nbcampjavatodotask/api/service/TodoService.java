@@ -54,4 +54,11 @@ public class TodoService {
         // 위의 예시는 파라미터를 다 분해를 해서 만들어 둔 경우이다(String~ 하고 5가지 파라미터가 다 들어가 있음)
         return todoRepository.save(todo);
     }
+
+    public Todo getTodoById(Long id){
+        //아이디 기반으로 todo 레포지토리에서 조회를 하는 메소드
+        return todoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Todo Not Exist"));
+                //exception 관리를 위해 id기반 조회시 해당 todo를 발견할 수 없으면 nothing 리액션을 던지도록 선언
+    }
 }

@@ -5,10 +5,7 @@ import com.navi.nbcampjavatodotask.api.model.todo.TodoResponse;
 import com.navi.nbcampjavatodotask.api.service.TodoService;
 import com.navi.nbcampjavatodotask.database.entity.Todo;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 
@@ -38,5 +35,14 @@ public class TodoController {
                 // assignee : 내용 이런 식으로 잘못된 표기 뒤에 값이 들어간다.
         );
         return TodoResponse.of(todo);
+    }
+
+    @GetMapping("/{id}")
+    public TodoResponse getTodo(@PathVariable("id") Long id){
+        Todo todo = todoService.getTodoById(id);
+        return TodoResponse.of(todo);
+        // 왜 PathVariable 쓰는지 기존 다른 강의에서 설명 했었음 다시 볼 것
+        // id를 Pathvariable로 받아서 주입을 받고, todo서비스에 있는 getTodoById에 호출을 해서
+        // 해당 내용을 TodoResponse로 바꿔서 return을 해준다.
     }
 }
