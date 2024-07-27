@@ -3,6 +3,7 @@ package com.navi.nbcampjavatodotask.api.controller;
 import com.navi.nbcampjavatodotask.api.model.todo.*;
 import com.navi.nbcampjavatodotask.api.service.TodoService;
 import com.navi.nbcampjavatodotask.database.entity.Todo;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,7 @@ public class TodoController {
     private final TodoService todoService;
 
     @PostMapping
+    @Operation(summary = " Todo 생성 API ")
     // 생성이므로 postmapping
     //TodoResponse를 반환하고, requestbody로 TodoCreateRequest를 받는다
     public TodoResponse createTodo(@RequestBody @Valid TodoCreateRequest request){

@@ -1,5 +1,6 @@
 package com.navi.nbcampjavatodotask.api.service;
 
+import com.navi.nbcampjavatodotask.api.model.exception.TodoNotFoundException;
 import com.navi.nbcampjavatodotask.database.entity.Todo;
 import com.navi.nbcampjavatodotask.database.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
@@ -59,7 +60,7 @@ public class TodoService {
     public Todo getTodoById(Long id){
         //아이디 기반으로 todo 레포지토리에서 조회를 하는 메소드
         return todoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Todo Not Exist"));
+                .orElseThrow(() -> new TodoNotFoundException());
                 //exception 관리를 위해 id기반 조회시 해당 todo를 발견할 수 없으면 nothing 리액션을 던지도록 선언
     }
 
