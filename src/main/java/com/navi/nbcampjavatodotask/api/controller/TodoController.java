@@ -1,5 +1,6 @@
 package com.navi.nbcampjavatodotask.api.controller;
 
+import com.navi.nbcampjavatodotask.api.model.todo.SimplifiedTodoResponse;
 import com.navi.nbcampjavatodotask.api.model.todo.TodoCreateRequest;
 import com.navi.nbcampjavatodotask.api.model.todo.TodoResponse;
 import com.navi.nbcampjavatodotask.api.service.TodoService;
@@ -8,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -44,5 +46,18 @@ public class TodoController {
         // 왜 PathVariable 쓰는지 기존 다른 강의에서 설명 했었음 다시 볼 것
         // id를 Pathvariable로 받아서 주입을 받고, todo서비스에 있는 getTodoById에 호출을 해서
         // 해당 내용을 TodoResponse로 바꿔서 return을 해준다.
+    }
+    @GetMapping
+    public List<SimplifiedTodoResponse> getTodos(){
+        List<Todo> todos = todoService.getTodos();
+        // 리스트를 반환한 뒤 스트림을 사용하여 변환한다.
+        return todos.stream()
+                // 리스트에 있는 것들을 하나하나 SimplifiedTodoResponse로 만들어 줘야 하니까
+                // id, title, createdAt을 넣어서 해당하는 값으로 변형을 하기 위한 메소드를 사용해 준다.
+                .map(it-> new SimplifiedTodoResponse(it.getId(), it.getTitle(), it.getCreatedAt()))
+                // 다시 리스트로 바꿔서 리턴해야 되므로 toList를 사용한다.
+                // SimplifiedTodoResponse DTO 같은 경우는 필드도 별로 없고(id, title, createdat) 심플하며
+                // 사용하는 부분이 getTodos 메소드 한개밖에 없어서 따로 팩토리 메소드를 생성하지 않았다.
+                .toList();
     }
 }

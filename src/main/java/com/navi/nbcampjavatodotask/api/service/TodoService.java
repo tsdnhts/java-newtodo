@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -61,4 +62,12 @@ public class TodoService {
                 .orElseThrow(() -> new RuntimeException("Todo Not Exist"));
                 //exception 관리를 위해 id기반 조회시 해당 todo를 발견할 수 없으면 nothing 리액션을 던지도록 선언
     }
+
+    public List<Todo> getTodos(){
+        return todoRepository.findAllByOrderByCreatedAtDesc();
+        // 레포지토리에 만들어 둔거 그냥 그대로 가져오면 끝~
+        // 다만 상세 조회 DTO와 전체 조회 DTO를 나눠두자
+    }
+
+
 }
