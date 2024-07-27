@@ -3,6 +3,7 @@ package com.navi.nbcampjavatodotask.api.controller;
 import com.navi.nbcampjavatodotask.api.model.todo.*;
 import com.navi.nbcampjavatodotask.api.service.TodoService;
 import com.navi.nbcampjavatodotask.database.entity.Todo;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +21,7 @@ public class TodoController {
     @PostMapping
     // 생성이므로 postmapping
     //TodoResponse를 반환하고, requestbody로 TodoCreateRequest를 받는다
-    public TodoResponse createTodo(@RequestBody TodoCreateRequest request){
+    public TodoResponse createTodo(@RequestBody @Valid TodoCreateRequest request){
         Todo todo = todoService.createTodo(
                 request.title(),
                 request.content(),
@@ -65,7 +66,7 @@ public class TodoController {
     // 관련 키워드 : 멱등성 -> 어떤 행동을 할 때, 어떤 상황에서 몇번째로 하든 같은 결과를 보장하는 것
     public TodoResponse updateTodo(
             @PathVariable("id") Long id,
-            @RequestBody TodoUpdateRequest request
+            @RequestBody @Valid TodoUpdateRequest request
             // id 값을 주입받기 위해 PathVariable
             // 나머지는 업데이트 할 내용을 받아야 하므로 RequestBody로 받는다
     ){
@@ -82,7 +83,7 @@ public class TodoController {
     @DeleteMapping("/{id}")
     public void deleteTodo(
             @PathVariable("id") Long id,
-            @RequestBody TodoDeleteRequest request
+            @RequestBody @Valid TodoDeleteRequest request
     ){
        todoService.deleteTodo(id, request.password());
     }
