@@ -3,6 +3,7 @@ package com.navi.nbcampjavatodotask.api.controller;
 import com.navi.nbcampjavatodotask.api.model.todo.SimplifiedTodoResponse;
 import com.navi.nbcampjavatodotask.api.model.todo.TodoCreateRequest;
 import com.navi.nbcampjavatodotask.api.model.todo.TodoResponse;
+import com.navi.nbcampjavatodotask.api.model.todo.TodoUpdateRequest;
 import com.navi.nbcampjavatodotask.api.service.TodoService;
 import com.navi.nbcampjavatodotask.database.entity.Todo;
 import lombok.RequiredArgsConstructor;
@@ -59,5 +60,25 @@ public class TodoController {
                 // SimplifiedTodoResponse DTO 같은 경우는 필드도 별로 없고(id, title, createdat) 심플하며
                 // 사용하는 부분이 getTodos 메소드 한개밖에 없어서 따로 팩토리 메소드를 생성하지 않았다.
                 .toList();
+    }
+
+    @PatchMapping("/{id}")
+    // PATCH -> 수정을 하긴 하되, 일부만 수정할때 사용
+    // PUT -> 수정을 하긴 하되, 전체를 수정할때 -> FILES put /images /files 같은 경우 사용한다고 함
+    // 관련 키워드 : 멱등성 -> 어떤 행동을 할 때, 어떤 상황에서 몇번째로 하든 같은 결과를 보장하는 것
+    public TodoResponse updateTodo(
+            @PathVariable("id") Long id,
+            @RequestBody TodoUpdateRequest request
+            // id 값을 주입받기 위해 PathVariable
+            // 나머지는 업데이트 할 내용을 받아야 하므로 RequestBody로 받는다
+    ){
+        Todo todo = todoService.updateTodo(
+                id,
+                request.title(),
+                request.content(),
+                request.assignee(),
+                request.password()
+        );
+        return TodoResponse.of(todo);
     }
 }

@@ -69,5 +69,27 @@ public class TodoService {
         // 다만 상세 조회 DTO와 전체 조회 DTO를 나눠두자
     }
 
-
+    public Todo updateTodo(
+            Long id, // 여기 id가 들어간 이유는, 아래 조회를 위해 id 값이 필요하기 때문
+            String title,
+            String content,
+            String assignee,
+            String password
+    ){
+        // 수정을 하려면 먼저 조회를 해야 한다
+        // 수정하려는 todo가 없을 때 에러를 던지는 것 까지 getTodoById 메소드에 이미 들어가 있음므로
+        // 그게 잘 돌아간다는 가정을 두고 작성을 할 수 있다.
+        Todo todo = getTodoById(id);
+        // todo가 존재하는지 확인한 다음, password가 일치하는지를 비교해 보아야 한다.
+        if (!todo.getPassword().equals(password)){
+            // 동일하지 않은 경우 예외처리를 하기 위해 앞에 !를 넣었다
+            throw new RuntimeException("password Incorrect");
+        }
+        todo.update(title, content, assignee);
+       //update 할 때 setter를 따로 열지 않고, 업데이트 하는 메소드를 새로 생성해서
+       // 3가지 필드(title, content, assignee)를 받을 수 있게 작성
+        // 받아온 title, content, assignee 필드 값을 todo엔티티에 설정한 update 메소드를 사용하여 값을 수정
+        // 이후 해당 값을 레포지토리에 저장하고, 그 값을 반환한다.
+        return todoRepository.save(todo);
+    }
 }

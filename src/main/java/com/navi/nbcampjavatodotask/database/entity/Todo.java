@@ -32,4 +32,12 @@ public class Todo {
         this.password = password;
         this.createdAt = createdAt;
     }
+
+    public void update(String title, String content, String assignee
+    ){
+        this.title = title;
+        this.content = content;
+        this.assignee = assignee;
+    }
+    // 리턴 타입은 없고 수정만 하는 메소드를 생성
 }
